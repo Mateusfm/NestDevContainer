@@ -2,13 +2,13 @@ FROM node:23-bookworm-slim
 
 WORKDIR /app
 
-COPY ./api/package.json ./api/lock.json ./
+COPY ./api/package.json ./api/yarn.lock ./
 
 RUN yarn
 
 COPY ./api .
 
-RUN yarn build
+RUN yarn run build
 
 EXPOSE 3000
 
