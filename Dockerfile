@@ -1,13 +1,27 @@
-FROM node:23-bookworm-slim
+FROM node:23-alpine3.20 as build
 
-# Cria o diretório de trabalho e define as permissões
-WORKDIR /home/node/app
+WORKDIR /app
 
-#instala o git e curl
-RUN apt-get update && apt-get install -y git curl
+COPY ./api/package.json ./api/yarn.lock ./
 
-# Instala o CLI do NestJS com permissões de superusuário
-RUN npm install -g @nestjs/cli
+RUN yarn
 
-# Define o usuário para node
-USER node
+COPY ./api .
+
+RUN yarn run build
+
+FROM node:23-alpine3.20
+
+WORKDIR /app
+
+# Copia os arquivos de dependências para garantir que package.json e yarn.lock estejam presentes
+COPY --from=build /app/package.json /app/yarn.lock ./
+
+# Instala somente as dependências de produção (remove os devDependencies)
+RUN yarn install --production --frozen-lockfile && yarn cache clean
+
+COPY --from=build /app/dist ./dist
+
+EXPOSE 3000
+
+CMD ["yarn", "run" , "start:prod"]
