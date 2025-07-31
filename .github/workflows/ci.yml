@@ -18,5 +18,9 @@ jobs:
       with:
         node-version: 20
         cache: 'yarn'
-    - run: yarn
-    - run: yarn run test
+
+    - name: Instalando dependências
+      working-directory: ./api
+      run: |
+        yarn
+        yarn run test
