@@ -35,7 +35,7 @@ jobs:
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
-        passwork: ${{ secrets.DOCKERHUB_TOKEN }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build docker image
       run: docker build -t mateusfm/mateus-ci-nest:${{ steps.generate_tag.outputs.sha }} .
