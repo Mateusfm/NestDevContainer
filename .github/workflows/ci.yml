@@ -23,3 +23,6 @@ jobs:
       run: |
         yarn
         yarn run test
+
+    - name: Build docker image
+      run: docker build -t mateus-ci-nest:latest .
