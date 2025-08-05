@@ -25,10 +25,20 @@ jobs:
         yarn run test
 
     - name: Generate tag
+      # Como esse step tem um output, cria um id para ser facilmente referenciado nos próximos steps
       id: generate_tag
       run: | 
         SHA=$(echo $GITHUB_SHA | head -c7)
         echo "sha=$SHA" >> $GITHUB_OUTPUT
 
+    - name: Login into the container registry
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        passwork: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Build docker image
-      run: docker build -t mateus-ci-nest:${{ steps.generate_tag.outputs.sha }} .
+      run: docker build -t mateusfm/mateus-ci-nest:${{ steps.generate_tag.outputs.sha }} .
+
+    - name: Push image
+      run: docker push mateusfm/mateus-ci-nest:${{ steps.generate_tag.outputs.sha }}
