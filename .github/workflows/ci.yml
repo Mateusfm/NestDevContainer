@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: 'Build and push'
+    name: Build and push
     runs-on: ubuntu-latest
 
     steps:
@@ -37,8 +37,8 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build docker image
-      run: docker build -t mateusfm/mateus-ci-nest:${{ steps.generate_tag.outputs.sha }} .
-
-    - name: Push image
-      run: docker push mateusfm/mateus-ci-nest:${{ steps.generate_tag.outputs.sha }}
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: mateusfm/mateus-ci-nest:${{ steps.generate_tag.outputs.sha }}, mateusfm/mateus-ci-nest:latest
