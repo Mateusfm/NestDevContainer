@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Projeto criado com o objetivo de estudar a infraestrutura de CI/CD com arquivos `.yml` através do [Github Actions](https://github.com/marketplace?type=actions) e IAC com [Terraform](https://registry.terraform.io/browse/providers). O provedor de infra foi a [AWS](https://us-east-2.console.aws.amazon.com/console/home?region=us-east-2).
 
 ## Project setup
 
