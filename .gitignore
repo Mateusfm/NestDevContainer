@@ -1,0 +1,68 @@
+# ----------------------
+# Node / NestJS
+# ----------------------
+# Dependências
+node_modules/
+
+# Build e artefatos
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Ambiente
+.env
+.env.*.local
+.env.local
+.env.test
+.env.production
+
+# Cache
+.cache/
+.tmp/
+temp/
+
+# Testes
+coverage/
+.jest/
+
+# Configuração IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+*.log
+
+# ----------------------
+# Terraform
+# ----------------------
+# State files
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Backups
+*.backup
+*.bak
+
+# Diretório de metadados
+.terraform/
+
+# Lock de provedor (pode ser commitado se desejado, mas geralmente é ignorado)
+.terraform.lock.hcl
+
+# Planos binários
+*.plan
+
+# ----------------------
+# SO / Geral
+# ----------------------
+.DS_Store
+Thumbs.db
