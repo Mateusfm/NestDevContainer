@@ -52,4 +52,4 @@ jobs:
         TAG: ${{ steps.generate_tag.outputs.sha }}
       run: |
         docker build -t $REGISTRY/mateus-ci:$TAG .
-        docker push -t $REGISTRY/mateus-ci:$TAG
+        docker push $REGISTRY/mateus-ci:$TAG
