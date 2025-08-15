@@ -46,10 +46,10 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
-    - name: Build docker image
+    - name: Build && push docker image
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         TAG: ${{ steps.generate_tag.outputs.sha }}
       run: |
-        docker build -t $REGISTRY/mateus-ci:$TAG .
+        docker build -t $REGISTRY/mateus-ci:$TAG -f prod.Dockerfile .
         docker push $REGISTRY/mateus-ci:$TAG
