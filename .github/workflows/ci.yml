@@ -47,9 +47,23 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build && push docker image
+      id: build-docker-image
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         TAG: ${{ steps.generate_tag.outputs.sha }}
       run: |
         docker build -t $REGISTRY/mateus-ci:$TAG -f prod.Dockerfile .
         docker push $REGISTRY/mateus-ci:$TAG
+        IMAGE=$(echo $REGISTRY/mateus-ci:$TAG)
+        echo "image=$IMAGE" >> $GITHUB_OUTPUT
+
+    - name: Deploy to App Runner
+      uses: awslabs/amazon-app-runner-deploy@main
+      with:
+        service: mateus-digix-api
+        image: steps.build-docker-image.outputs.image
+        access-role-arn: arn:aws:iam::476422658806:role/app-runner-role
+        region: us-east-2
+        cpu: 1
+        momory: 2
+        port: 3000
