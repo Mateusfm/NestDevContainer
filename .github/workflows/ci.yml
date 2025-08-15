@@ -61,7 +61,7 @@ jobs:
       uses: awslabs/amazon-app-runner-deploy@main
       with:
         service: mateus-digix-api
-        image: steps.build-docker-image.outputs.image
+        image: ${{ steps.build-docker-image.outputs.image }}
         access-role-arn: arn:aws:iam::476422658806:role/app-runner-role
         region: us-east-2
         cpu: 1
