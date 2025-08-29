@@ -28,6 +28,11 @@ jobs:
         yarn
         yarn run test
 
+    - name: Semantic Release
+      uses: cycjimmy/semantic-release-action@v4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
     - name: Generate tag
       # Como esse step tem um output, cria um id para ser facilmente referenciado nos próximos steps
       id: generate_tag
