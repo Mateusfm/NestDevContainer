@@ -30,6 +30,8 @@ jobs:
 
     - name: Semantic Release
       uses: cycjimmy/semantic-release-action@v4
+      with:
+        working_directory: ./api
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
