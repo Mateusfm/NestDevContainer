@@ -48,8 +48,8 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4.3.1
       with:
         audience: sts.amazonaws.com
-        aws-region: us-east-2
-        role-to-assume: arn:aws:iam::476422658806:role/ecr-role
+        aws-region: ${{ secrets.AWS_REGION }}
+        role-to-assume: ${{ secrets.AWS_LOGIN_ROLE }}
 
     - name: Login to AWS ECR
       id: login-ecr
@@ -62,17 +62,18 @@ jobs:
         TAG: ${{ steps.generate_tag.outputs.sha }}
       run: |
         docker build -t $REGISTRY/mateus-ci:$TAG -f prod.Dockerfile .
-        docker push $REGISTRY/mateus-ci:$TAG
+        docker tag $REGISTRY/mateus-ci:$TAG $REGISTRY/mateus-ci:latest
+        docker push --all-tags $REGISTRY/mateus-ci
         IMAGE=$(echo $REGISTRY/mateus-ci:$TAG)
         echo "image=$IMAGE" >> $GITHUB_OUTPUT
 
     - name: Deploy to App Runner
       uses: awslabs/amazon-app-runner-deploy@main
       with:
-        service: mateus-digix-api
+        service: ${{ vars.SERVICE_NAME }}
         image: ${{ steps.build-docker-image.outputs.image }}
-        access-role-arn: arn:aws:iam::476422658806:role/app-runner-role
-        region: us-east-2
+        access-role-arn: ${{ secrets.AWS_APP_RUNNER_ROLE }}
+        region: ${{ secrets.AWS_REGION }}
         cpu: 1
         momory: 2
         port: 3000
